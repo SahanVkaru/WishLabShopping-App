@@ -1,0 +1,162 @@
+[
+  {
+    "id": "1",
+    "name": "Wireless Earbuds Pro",
+    "category": "Electronics",
+    "price": 8500.00,
+    "rating": 4.8,
+    "reviewCount": 342,
+    "description": "High-quality wireless earbuds with active noise cancellation, deep bass, and up to 24 hours of battery life with the charging case. Perfect for music lovers and professionals on the go.",
+    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "2",
+    "name": "Smart Fitness Watch",
+    "category": "Electronics",
+    "price": 12000.00,
+    "rating": 4.6,
+    "reviewCount": 215,
+    "description": "Track your heart rate, sleep, and workouts with this sleek fitness watch. Features a bright AMOLED display and is water-resistant up to 50m.",
+    "image": "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "3",
+    "name": "Portable Bluetooth Speaker",
+    "category": "Electronics",
+    "price": 5500.00,
+    "rating": 4.5,
+    "reviewCount": 189,
+    "description": "Compact, rugged, and waterproof Bluetooth speaker delivering surprisingly big audio and punchy bass from its small size.",
+    "image": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "4",
+    "name": "Slim Phone Case",
+    "category": "Electronics",
+    "price": 1200.00,
+    "rating": 4.2,
+    "reviewCount": 56,
+    "description": "Ultra-thin protective case for your smartphone with a matte finish. Provides excellent grip and protects against daily drops.",
+    "image": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "5",
+    "name": "Classic Cotton T-Shirt",
+    "category": "Clothing",
+    "price": 1800.00,
+    "rating": 4.7,
+    "reviewCount": 420,
+    "description": "A wardrobe essential. Made from 100% organic cotton, this t-shirt offers an incredibly soft feel and a perfect fit for everyday wear.",
+    "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "6",
+    "name": "Vintage Denim Jacket",
+    "category": "Clothing",
+    "price": 7500.00,
+    "rating": 4.9,
+    "reviewCount": 134,
+    "description": "Timeless denim jacket with a slightly faded wash. Features button-flap chest pockets and adjustable waist tabs.",
+    "image": "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "7",
+    "name": "Floral Summer Dress",
+    "category": "Clothing",
+    "price": 4200.00,
+    "rating": 4.4,
+    "reviewCount": 89,
+    "description": "Lightweight and breathable summer dress with a beautiful floral print. Perfect for casual outings and beach vacations.",
+    "image": "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "8",
+    "name": "Cozy Pullover Hoodie",
+    "category": "Clothing",
+    "price": 3500.00,
+    "rating": 4.8,
+    "reviewCount": 275,
+    "description": "Stay warm and stylish with this fleece-lined hoodie. Features a spacious kangaroo pocket and an adjustable drawstring hood.",
+    "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "9",
+    "name": "Genuine Leather Wallet",
+    "category": "Accessories",
+    "price": 2800.00,
+    "rating": 4.6,
+    "reviewCount": 112,
+    "description": "Premium full-grain leather wallet with multiple card slots, a clear ID window, and a spacious bill compartment.",
+    "image": "https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "10",
+    "name": "Polarized Sunglasses",
+    "category": "Accessories",
+    "price": 3200.00,
+    "rating": 4.5,
+    "reviewCount": 94,
+    "description": "Classic aviator sunglasses with polarized lenses to reduce glare and provide 100% UV protection.",
+    "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "11",
+    "name": "Canvas Travel Backpack",
+    "category": "Accessories",
+    "price": 5800.00,
+    "rating": 4.7,
+    "reviewCount": 156,
+    "description": "Durable canvas backpack ideal for travel or daily commute. Features a padded laptop sleeve and multiple organization pockets.",
+    "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "12",
+    "name": "Minimalist Wrist Watch",
+    "category": "Accessories",
+    "price": 4500.00,
+    "rating": 4.3,
+    "reviewCount": 67,
+    "description": "Elegant quartz watch with a minimalist dial and a genuine leather strap. Suitable for both casual and formal occasions.",
+    "image": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "13",
+    "name": "Lightweight Running Shoes",
+    "category": "Footwear",
+    "price": 9500.00,
+    "rating": 4.8,
+    "reviewCount": 310,
+    "description": "Breathable mesh running shoes with responsive cushioning. Designed to provide maximum comfort and energy return on your runs.",
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "14",
+    "name": "Classic White Sneakers",
+    "category": "Footwear",
+    "price": 6500.00,
+    "rating": 4.6,
+    "reviewCount": 245,
+    "description": "Versatile white sneakers that pair well with any outfit. Features a durable rubber outsole and a comfortable insole.",
+    "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "15",
+    "name": "Comfortable Beach Sandals",
+    "category": "Footwear",
+    "price": 2200.00,
+    "rating": 4.4,
+    "reviewCount": 128,
+    "description": "Slip-on sandals with a contoured footbed for all-day comfort. Water-resistant and perfect for the beach or pool.",
+    "image": "https://images.unsplash.com/photo-1603487742131-4160ec999306?w=500&auto=format&fit=crop"
+  },
+  {
+    "id": "16",
+    "name": "Leather Ankle Boots",
+    "category": "Footwear",
+    "price": 11000.00,
+    "rating": 4.7,
+    "reviewCount": 84,
+    "description": "Stylish leather boots featuring a side zipper for easy on and off. Built to last with a sturdy heel and premium materials.",
+    "image": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=500&auto=format&fit=crop"
+  }
+]
