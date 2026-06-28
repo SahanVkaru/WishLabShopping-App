@@ -61,52 +61,129 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     if (!mounted) return;
 
-    showDialog(
+    showGeneralDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFF2ECC71).withValues(alpha: 0.1),
-                shape: BoxShape.circle,
+      barrierColor: Colors.black54,
+      transitionDuration: const Duration(milliseconds: 500),
+      pageBuilder: (context, animation, secondaryAnimation) => const SizedBox(),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final scaleAnimation = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOutBack,
+        );
+        final fadeAnimation = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOut,
+        );
+
+        return FadeTransition(
+          opacity: fadeAnimation,
+          child: ScaleTransition(
+            scale: scaleAnimation,
+            child: Center(
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 32),
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(32),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2ECC71).withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.check_circle,
+                          color: Color(0xFF2ECC71),
+                          size: 64,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      const Text(
+                        'Order Placed!',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Thank you for shopping!\nYour order has been placed successfully.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context); // close dialog
+                            Navigator.pop(context); // pop checkout screen
+                            Navigator.pushReplacementNamed(context, AppRoutes.home);
+                            
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => OrderDetailsSheet(order: order),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.button,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            elevation: 0,
+                          ),
+                          child: const Text(
+                            'View Order',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.pushReplacementNamed(context, AppRoutes.home);
+                        },
+                        child: Text(
+                          'Continue Shopping',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: const Icon(Icons.check_circle_outline, color: Color(0xFF2ECC71), size: 28),
             ),
-            const SizedBox(width: 12),
-            const Expanded(child: Text('Order Placed!', style: TextStyle(fontWeight: FontWeight.bold))),
-          ],
-        ),
-        content: const Text('Thank you for shopping! Your order has been placed successfully.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context); // close dialog
-              Navigator.pop(context); // pop checkout screen
-              Navigator.pushReplacementNamed(context, AppRoutes.home);
-              
-              // Open order details (this will show above the home screen)
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => OrderDetailsSheet(order: order),
-              );
-            },
-            child: Text('View Order', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.pushReplacementNamed(context, AppRoutes.home);
-            },
-            child: Text('Continue Shopping', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontWeight: FontWeight.bold)),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -159,7 +236,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: AppColors.button,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -329,7 +406,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
+                        backgroundColor: AppColors.button,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -716,35 +793,45 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 const SizedBox(height: 32),
 
                 // Confirm Order Button
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _isLoading ? null : () => _placeOrder(context, cart, orderProvider),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.button,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: _isLoading 
-                      ? const SizedBox(
-                          height: 20, 
-                          width: 20, 
-                          child: CircularProgressIndicator(
-                            color: Colors.white, 
-                            strokeWidth: 2
-                          )
-                        )
-                      : const Text(
-                          'Confirm Order', 
-                          style: TextStyle(
-                            fontSize: 16, 
-                            fontWeight: FontWeight.bold
-                          )
+                Center(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOutCubic,
+                    height: 60,
+                    width: _isLoading ? 60 : MediaQuery.of(context).size.width - 48,
+                    child: ElevatedButton(
+                      onPressed: _isLoading ? null : () => _placeOrder(context, cart, orderProvider),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.button,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
+                        elevation: 0,
+                      ),
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        child: _isLoading 
+                          ? const SizedBox(
+                              key: ValueKey('loading'),
+                              height: 24, 
+                              width: 24, 
+                              child: CircularProgressIndicator(
+                                color: Colors.white, 
+                                strokeWidth: 2.5
+                              )
+                            )
+                          : const Text(
+                              'Confirm Order', 
+                              key: ValueKey('text'),
+                              style: TextStyle(
+                                fontSize: 16, 
+                                fontWeight: FontWeight.bold
+                              )
+                            ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24),

@@ -27,6 +27,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
     with SingleTickerProviderStateMixin {
   int _selectedSize = 1; // Default M
   final List<String> _sizes = ['S', 'M', 'L', 'XL'];
+  bool _isAddToCartPressed = false;
 
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
@@ -100,7 +101,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
           label: 'VIEW CART',
           textColor: Colors.white,
           onPressed: () {
-            Navigator.pop(context);
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
             Navigator.pushReplacementNamed(context, '/cart');
           },
         ),
@@ -434,45 +435,45 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                 child: Row(
                   children: [
                     Expanded(
-                      child: ElevatedButton(
-                        onPressed: _addToCart,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.button,
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                          shadowColor: colorScheme.primary.withValues(alpha: 0.4),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.shopping_bag_outlined, size: 20),
-                            SizedBox(width: 8),
-                            Text(
-                              'Add to Cart',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
+                      child: GestureDetector(
+                        onTapDown: (_) => setState(() => _isAddToCartPressed = true),
+                        onTapUp: (_) {
+                          setState(() => _isAddToCartPressed = false);
+                          _addToCart();
+                        },
+                        onTapCancel: () => setState(() => _isAddToCartPressed = false),
+                        child: AnimatedScale(
+                          scale: _isAddToCartPressed ? 0.95 : 1.0,
+                          duration: const Duration(milliseconds: 100),
+                          curve: Curves.easeOutCubic,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 18),
+                            decoration: BoxDecoration(
+                              color: AppColors.button,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: colorScheme.primary.withValues(alpha: 0.4),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: colorScheme.surfaceContainerHighest,
-                        shape: BoxShape.circle,
-                        boxShadow: isDark ? [] : AppStyles.subtleShadow,
-                      ),
-                      child: IconButton(
-                        onPressed: _addToCart,
-                        padding: const EdgeInsets.all(14),
-                        icon: Icon(
-                          Icons.shopping_cart_outlined,
-                          color: colorScheme.onSurface.withValues(alpha: 0.6),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.shopping_bag_outlined, size: 20, color: Colors.white),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Add to Cart',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16, 
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '../providers/cart_provider.dart';
 import '../widgets/cart_item_tile.dart';
 import '../widgets/empty_state.dart';
@@ -86,18 +87,29 @@ class CartScreen extends StatelessWidget {
                         );
                       }
 
-                      return ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        padding: const EdgeInsets.only(bottom: 260),
-                        itemCount: cart.items.length,
-                        itemBuilder: (context, index) {
-                          final productId = cart.items.keys.toList()[index];
-                          final cartItem = cart.items.values.toList()[index];
-                          return CartItemTile(
-                            productId: productId,
-                            cartItem: cartItem,
-                          );
-                        },
+                      return AnimationLimiter(
+                        child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.only(bottom: 260),
+                          itemCount: cart.items.length,
+                          itemBuilder: (context, index) {
+                            final productId = cart.items.keys.toList()[index];
+                            final cartItem = cart.items.values.toList()[index];
+                            return AnimationConfiguration.staggeredList(
+                              position: index,
+                              duration: const Duration(milliseconds: 375),
+                              child: SlideAnimation(
+                                verticalOffset: 50.0,
+                                child: FadeInAnimation(
+                                  child: CartItemTile(
+                                    productId: productId,
+                                    cartItem: cartItem,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       );
                     },
                   ),

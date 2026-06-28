@@ -15,6 +15,7 @@ class CustomSearchBar extends StatefulWidget {
 
 class _CustomSearchBarState extends State<CustomSearchBar> {
   bool _isFocused = false;
+  TextEditingController? _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           displayStringForOption: (Product option) => option.name,
           onSelected: (Product selection) {
             FocusScope.of(context).unfocus();
+            _controller?.clear();
+            Provider.of<ProductProvider>(context, listen: false).setSearchQuery('');
             Navigator.pushNamed(context, AppRoutes.productDetail, arguments: selection);
           },
           optionsViewBuilder: (context, onSelected, options) {
@@ -79,6 +82,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             );
           },
           fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+            _controller = textEditingController;
             focusNode.addListener(() {
               if (mounted) {
                 setState(() {

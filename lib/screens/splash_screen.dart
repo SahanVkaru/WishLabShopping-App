@@ -95,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _mainController.forward();
 
-    Future.delayed(const Duration(seconds: 7), () {
+    Future.delayed(const Duration(seconds: 6), () {
       if (mounted) {
         Navigator.pushReplacementNamed(context, AppRoutes.login);
       }
@@ -142,11 +142,11 @@ class _SplashScreenState extends State<SplashScreen>
                         child: ClipOval(
                           // You can tweak the position and size of the animation here!
                           child: Transform.scale(
-                            scale: 1.6, // 👈 Edit this to make it bigger/smaller (e.g. 1.2 to 2.0)
+                            scale: 1.1,
                             child: Transform.translate(
-                              offset: const Offset(0, -30), // 👈 Edit the -25 to move it UP (negative) or DOWN (positive)
+                              offset: const Offset(0, -60),
                               child: Lottie.asset(
-                                'assets/Intro/Logo.json',
+                                'assets/Intro/logo.json',
                                 fit: BoxFit.cover,
                               ),
                             ),

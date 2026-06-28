@@ -29,9 +29,9 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => ProductProvider()),
-        ChangeNotifierProvider(create: (_) => CartProvider()),
-        ChangeNotifierProvider(create: (_) => WishlistProvider()),
-        ChangeNotifierProvider(create: (_) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider(), lazy: false),
+        ChangeNotifierProvider(create: (_) => WishlistProvider(), lazy: false),
+        ChangeNotifierProvider(create: (_) => OrderProvider(), lazy: false),
       ],
       child: const WishShopLabApp(),
     ),

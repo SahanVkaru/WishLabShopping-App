@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
 import '../providers/order_provider.dart';
@@ -11,8 +12,15 @@ import '../constants/app_styles.dart';
 import '../constants/app_colors.dart';
 import '../widgets/order_details_sheet.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool _showAllOrders = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +35,18 @@ class ProfileScreen extends StatelessWidget {
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(bottom: 120),
-              child: Column(
-                children: [
+              child: AnimationLimiter(
+                child: Column(
+                  children: AnimationConfiguration.toStaggeredList(
+                    duration: const Duration(milliseconds: 500),
+                    childAnimationBuilder: (widget) => SlideAnimation(
+                      horizontalOffset: -100.0,
+                      curve: Curves.easeOutCubic,
+                      child: FadeInAnimation(
+                        child: widget,
+                      ),
+                    ),
+                    children: [
                   // Header
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -45,36 +63,7 @@ class ProfileScreen extends StatelessWidget {
                             color: colorScheme.onSurface,
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: const Text('Settings are not available yet!'),
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            );
-                          },
-                          borderRadius: BorderRadius.circular(14),
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: colorScheme.surface,
-                              borderRadius: BorderRadius.circular(14),
-                              boxShadow: isDark ? [] : AppStyles.subtleShadow,
-                              border: isDark
-                                  ? Border.all(
-                                      color: colorScheme.outline
-                                          .withValues(alpha: 0.3))
-                                  : null,
-                            ),
-                            child: Icon(Icons.settings_outlined,
-                                color: colorScheme.onSurface.withValues(alpha: 0.6),
-                                size: 20),
-                          ),
-                        ),
+                        const SizedBox(width: 40), // Placeholder to keep title centered
                       ],
                     ),
                   ),
@@ -112,18 +101,9 @@ class ProfileScreen extends StatelessWidget {
                               width: 3,
                             ),
                           ),
-                          child: CircleAvatar(
+                          child: const CircleAvatar(
                             radius: 36,
-                            backgroundColor:
-                                Colors.white.withValues(alpha: 0.2),
-                            child: const Text(
-                              'JD',
-                              style: TextStyle(
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=5'),
                           ),
                         ),
                         const SizedBox(width: 20),
@@ -132,7 +112,7 @@ class ProfileScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                'John Doe',
+                                'Zaskia',
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,
@@ -141,7 +121,7 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'john.doe@example.com',
+                                'Jakarta, INA',
                                 style: TextStyle(
                                   color: Colors.white.withValues(alpha: 0.8),
                                   fontSize: 13,
@@ -251,30 +231,56 @@ class ProfileScreen extends StatelessWidget {
                         );
                       }
 
-                      return _buildSettingsCard(
-                        context,
-                        colorScheme: colorScheme,
-                        isDark: isDark,
+                      final displayOrders = _showAllOrders 
+                          ? orderProvider.orders 
+                          : orderProvider.orders.take(5).toList();
+
+                      return Column(
                         children: [
-                          ...orderProvider.orders.asMap().entries.map((entry) {
-                            final index = entry.key;
-                            final order = entry.value;
-                            return Column(
-                              children: [
-                                _buildOrderTile(
-                                  context,
-                                  colorScheme: colorScheme,
-                                  order: order,
-                                ),
-                                if (index < orderProvider.orders.length - 1)
-                                  Divider(
-                                    color: colorScheme.outline.withValues(alpha: 0.15),
-                                    height: 1,
-                                    indent: 56,
+                          _buildSettingsCard(
+                            context,
+                            colorScheme: colorScheme,
+                            isDark: isDark,
+                            children: [
+                              ...displayOrders.asMap().entries.map((entry) {
+                                final index = entry.key;
+                                final order = entry.value;
+                                return Column(
+                                  children: [
+                                    _buildOrderTile(
+                                      context,
+                                      colorScheme: colorScheme,
+                                      order: order,
+                                    ),
+                                    if (index < displayOrders.length - 1)
+                                      Divider(
+                                        color: colorScheme.outline.withValues(alpha: 0.15),
+                                        height: 1,
+                                        indent: 56,
+                                      ),
+                                  ],
+                                );
+                              }).toList(),
+                            ],
+                          ),
+                          if (orderProvider.orders.length > 5)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12),
+                              child: TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _showAllOrders = !_showAllOrders;
+                                  });
+                                },
+                                child: Text(
+                                  _showAllOrders ? 'Show less' : 'Show all orders',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: colorScheme.primary,
                                   ),
-                              ],
-                            );
-                          }).toList(),
+                                ),
+                              ),
+                            ),
                         ],
                       );
                     },
@@ -304,7 +310,9 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                ],
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
