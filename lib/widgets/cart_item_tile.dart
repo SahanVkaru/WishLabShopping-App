@@ -194,12 +194,28 @@ class CartItemTile extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Text(
-                          '${cartItem.quantity}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                            color: colorScheme.onSurface,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          transitionBuilder: (Widget child, Animation<double> animation) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(0.0, -0.5),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              ),
+                            );
+                          },
+                          child: Text(
+                            '${cartItem.quantity}',
+                            key: ValueKey<int>(cartItem.quantity),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: colorScheme.onSurface,
+                            ),
                           ),
                         ),
                       ),
@@ -224,7 +240,7 @@ class CartItemTile extends StatelessWidget {
   }
 }
 
-class _QuantityButton extends StatelessWidget {
+class _QuantityButton extends StatefulWidget {
   final IconData icon;
   final VoidCallback onTap;
   final ColorScheme colorScheme;
@@ -238,20 +254,43 @@ class _QuantityButton extends StatelessWidget {
   });
 
   @override
+  State<_QuantityButton> createState() => _QuantityButtonState();
+}
+
+class _QuantityButtonState extends State<_QuantityButton> {
+  bool _isPressed = false;
+
+  void _onTapDown(TapDownDetails details) => setState(() => _isPressed = true);
+  void _onTapUp(TapUpDetails details) => setState(() => _isPressed = false);
+  void _onTapCancel() => setState(() => _isPressed = false);
+
+  @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: Icon(
-            icon,
-            size: 16,
-            color: isPrimary
-                ? colorScheme.primary
-                : colorScheme.onSurface.withValues(alpha: 0.5),
+      child: GestureDetector(
+        onTapDown: _onTapDown,
+        onTapUp: _onTapUp,
+        onTapCancel: _onTapCancel,
+        onTap: () {
+          widget.onTap();
+        },
+        child: AnimatedScale(
+          scale: _isPressed ? 0.8 : 1.0,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              widget.icon,
+              size: 16,
+              color: widget.isPrimary
+                  ? widget.colorScheme.primary
+                  : widget.colorScheme.onSurface.withValues(alpha: 0.5),
+            ),
           ),
         ),
       ),
